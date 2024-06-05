@@ -110,7 +110,7 @@ exports.put = (req, res) => {
 			if (result.affectedRows === 0) {
 				return res.status(404).json({ message: "Part not found" })
 			}
-			res.json({
+			res.status(200).json({
 				id,
 				part_number,
 				part_name,
@@ -136,6 +136,6 @@ exports.delete = (req, res) => {
 		if (result.affectedRows === 0) {
 			return res.status(404).json({ message: "Part not found" })
 		}
-		res.json({ message: "Part deleted successfully" })
+		res.status(200).json({ message: "Part deleted successfully" })
 	})
 }

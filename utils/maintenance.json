@@ -1,0 +1,104 @@
+{
+	"report_id": "67890",
+	"aircraft": {
+		"registration_number": "N456CD",
+		"manufacturer": "Airbus",
+		"model": "A320",
+		"serial_number": "12345",
+		"year_of_manufacture": 2010
+	},
+	"maintenance_tasks": [
+		{
+			"task_id": "MT001",
+			"task_description": "Engine Oil Change",
+			"task_type": "Routine Maintenance",
+			"scheduled_date": "2024-06-20",
+			"completed_date": "2024-06-20",
+			"status": "Completed",
+			"technician_id": "TECH003",
+			"technician_name": "Alice Green",
+			"comments": "Oil change completed without issues."
+		},
+		{
+			"task_id": "MT002",
+			"task_description": "Hydraulic System Check",
+			"task_type": "Inspection",
+			"scheduled_date": "2024-06-20",
+			"completed_date": "2024-06-20",
+			"status": "Completed",
+			"technician_id": "TECH004",
+			"technician_name": "Bob White",
+			"comments": "Hydraulic system operating normally."
+		},
+		{
+			"task_id": "MT003",
+			"task_description": "Landing Gear Lubrication",
+			"task_type": "Preventive Maintenance",
+			"scheduled_date": "2024-06-21",
+			"completed_date": "2024-06-21",
+			"status": "Completed",
+			"technician_id": "TECH005",
+			"technician_name": "Charlie Black",
+			"comments": "Landing gear lubricated as per maintenance manual."
+		}
+	],
+	"component_replacements": [
+		{
+			"component_id": "CMP003",
+			"component_name": "Cabin Air Filter",
+			"part_number": "CAF-98765",
+			"replacement_date": "2024-06-20",
+			"status": "Replaced",
+			"technician_id": "TECH006",
+			"technician_name": "David Brown"
+		},
+		{
+			"component_id": "CMP004",
+			"component_name": "Navigation Light Bulb",
+			"part_number": "NLB-54321",
+			"replacement_date": "2024-06-21",
+			"status": "Replaced",
+			"technician_id": "TECH007",
+			"technician_name": "Eve Davis"
+		}
+	],
+	"inspections": [
+		{
+			"inspection_id": "INSP003",
+			"inspection_type": "Exterior Visual Inspection",
+			"inspection_date": "2024-06-20",
+			"inspector_id": "INSP003",
+			"inspector_name": "Frank Harris",
+			"results": "No external damage or corrosion detected."
+		},
+		{
+			"inspection_id": "INSP004",
+			"inspection_type": "Flight Control Check",
+			"inspection_date": "2024-06-21",
+			"inspector_id": "INSP004",
+			"inspector_name": "Grace Wilson",
+			"results": "Flight controls functioning within normal parameters."
+		}
+	],
+	"logbook_entries": [
+		{
+			"entry_id": "LB001",
+			"entry_date": "2024-06-20",
+			"description": "Performed routine maintenance tasks including engine oil change and hydraulic system check.",
+			"entered_by": "Alice Green",
+			"signature": "Alice Green"
+		},
+		{
+			"entry_id": "LB002",
+			"entry_date": "2024-06-21",
+			"description": "Completed preventive maintenance tasks and component replacements.",
+			"entered_by": "Charlie Black",
+			"signature": "Charlie Black"
+		}
+	],
+	"summary": {
+		"maintenance_supervisor": "Henry Jones",
+		"review_date": "2024-06-21",
+		"comments": "All scheduled maintenance tasks completed successfully. Aircraft is airworthy and ready for operations."
+	}
+}

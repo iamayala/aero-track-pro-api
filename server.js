@@ -7,7 +7,15 @@ const app = express()
 const server = http.createServer(app)
 
 // CORS middleware
-app.use(cors())
+// app.use(cors())
+
+const corsOptions = {
+	origin: "*", // Allow all origins
+	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+	allowedHeaders: "Content-Type,Authorization",
+}
+
+app.use(cors(corsOptions))
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))

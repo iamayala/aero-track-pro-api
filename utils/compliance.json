@@ -1,0 +1,99 @@
+{
+	"report_id": "12345",
+	"aircraft": {
+		"registration_number": "N123AB",
+		"manufacturer": "Boeing",
+		"model": "737-800",
+		"serial_number": "30833",
+		"year_of_manufacture": 2005
+	},
+	"compliance_checks": [
+		{
+			"check_id": "CH001",
+			"check_type": "Scheduled Maintenance",
+			"check_description": "Routine A-check maintenance",
+			"due_date": "2024-06-15",
+			"completed_date": "2024-06-14",
+			"status": "Completed",
+			"comments": "All routine checks completed successfully."
+		},
+		{
+			"check_id": "CH002",
+			"check_type": "Airworthiness Directive",
+			"check_description": "AD 2023-04-05 inspection",
+			"due_date": "2024-07-01",
+			"completed_date": null,
+			"status": "Pending",
+			"comments": "Inspection scheduled for next maintenance visit."
+		},
+		{
+			"check_id": "CH003",
+			"check_type": "Service Bulletin",
+			"check_description": "SB 737-57A1321 wing inspection",
+			"due_date": "2024-08-01",
+			"completed_date": "2024-07-20",
+			"status": "Completed",
+			"comments": "No issues found during inspection."
+		}
+	],
+	"component_replacements": [
+		{
+			"component_id": "CMP001",
+			"component_name": "Engine Oil Filter",
+			"part_number": "OF-12345",
+			"replacement_date": "2024-06-14",
+			"status": "Replaced",
+			"technician_id": "TECH001",
+			"technician_name": "John Doe"
+		},
+		{
+			"component_id": "CMP002",
+			"component_name": "Main Landing Gear Tire",
+			"part_number": "MLG-67890",
+			"replacement_date": "2024-06-14",
+			"status": "Replaced",
+			"technician_id": "TECH002",
+			"technician_name": "Jane Smith"
+		}
+	],
+	"inspections": [
+		{
+			"inspection_id": "INSP001",
+			"inspection_type": "Visual Inspection",
+			"inspection_date": "2024-06-14",
+			"inspector_id": "INSP001",
+			"inspector_name": "Michael Brown",
+			"results": "No visible damage or wear found."
+		},
+		{
+			"inspection_id": "INSP002",
+			"inspection_type": "Functional Check",
+			"inspection_date": "2024-06-14",
+			"inspector_id": "INSP002",
+			"inspector_name": "Sarah Johnson",
+			"results": "All systems functional and within operational limits."
+		}
+	],
+	"regulatory_compliance": [
+		{
+			"regulation_id": "REG001",
+			"regulation_name": "FAA Airworthiness Directive",
+			"compliance_status": "Compliant",
+			"last_review_date": "2024-06-14",
+			"comments": "All applicable directives met."
+		},
+		{
+			"regulation_id": "REG002",
+			"regulation_name": "EASA Continuing Airworthiness",
+			"compliance_status": "Pending Review",
+			"last_review_date": null,
+			"comments": "Next review scheduled for 2024-07-01."
+		}
+	],
+	"sign_off": {
+		"signed_by": "Maintenance Supervisor",
+		"signature_date": "2024-06-14",
+		"signature": "John Doe",
+		"comments": "All maintenance and inspection activities completed as scheduled."
+	}
+}

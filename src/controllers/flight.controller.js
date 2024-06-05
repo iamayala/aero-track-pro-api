@@ -50,7 +50,7 @@ exports.get = (req, res) => {
 				console.error("Error getting flights:", err)
 				return res.status(500).json({ message: "Internal server error" })
 			}
-			res.json(results)
+			res.status(200).json(results)
 		}
 	)
 }
@@ -125,6 +125,6 @@ exports.delete = (req, res) => {
 			console.error("Error deleting flight:", err)
 			return res.status(500).json({ message: "Internal server error" })
 		}
-		res.json({ message: "Flight deleted successfully" })
+		res.status(200).json({ message: "Flight deleted successfully" })
 	})
 }

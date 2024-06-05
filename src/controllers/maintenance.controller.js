@@ -57,7 +57,7 @@ exports.get = (req, res) => {
 		`
     SELECT MA.*, 
            AC.id AS aircraft_id, AC.manufacturer AS aircraft_manufacturer, AC.model AS aircraft_model, AC.registration_number, 
-           CONCAT('technician', UT.id) AS technician_id, UT.full_name AS technician_name, UT.email AS technician_email
+         UT.id AS technician_id, UT.full_name AS technician_name, UT.email AS technician_email
     FROM MaintenanceActivities MA
     JOIN Aircrafts AC ON MA.aircraft_id = AC.id
     JOIN Users UT ON MA.technician_id = UT.id
@@ -78,7 +78,7 @@ exports.getById = (req, res) => {
 		`
     SELECT MA.*, 
            AC.id AS aircraft_id, AC.manufacturer AS aircraft_manufacturer, AC.model AS aircraft_model, AC.registration_number, 
-           CONCAT('technician', UT.id) AS technician_id, UT.full_name AS technician_name, UT.email AS technician_email
+            UT.id AS technician_id, UT.full_name AS technician_name, UT.email AS technician_email
     FROM MaintenanceActivities MA
     JOIN Aircrafts AC ON MA.aircraft_id = AC.id
     LEFT JOIN Users UT ON MA.technician_id = UT.id
@@ -101,7 +101,7 @@ exports.getByTechnicianId = (req, res) => {
 		`
     SELECT MA.*, 
            AC.id AS aircraft_id, AC.manufacturer AS aircraft_manufacturer, AC.model AS aircraft_model, AC.registration_number, 
-           CONCAT('technician', UT.id) AS technician_id, UT.full_name AS technician_name, UT.email AS technician_email
+            UT.id AS technician_id, UT.full_name AS technician_name, UT.email AS technician_email
     FROM MaintenanceActivities MA
     JOIN Aircrafts AC ON MA.aircraft_id = AC.id
     LEFT JOIN Users UT ON MA.technician_id = UT.id
@@ -124,7 +124,7 @@ exports.getByAircraftId = (req, res) => {
 		`
     SELECT MA.*, 
            AC.id AS aircraft_id, AC.manufacturer AS aircraft_manufacturer, AC.model AS aircraft_model, AC.registration_number, 
-           CONCAT('technician', UT.id) AS technician_id, UT.full_name AS technician_name, UT.email AS technician_email
+            UT.id AS technician_id, UT.full_name AS technician_name, UT.email AS technician_email
     FROM MaintenanceActivities MA
     JOIN Aircrafts AC ON MA.aircraft_id = AC.id
     LEFT JOIN Users UT ON MA.technician_id = UT.id
@@ -148,8 +148,6 @@ exports.put = (req, res) => {
 		activity_description,
 		aircraft_id,
 		technician_id,
-		start_datetime,
-		end_datetime,
 		parts_replaced,
 		issues_resolved,
 		status,
@@ -157,15 +155,13 @@ exports.put = (req, res) => {
 
 	db.query(
 		`UPDATE MaintenanceActivities
-     SET activity_type = ?, activity_description = ?, aircraft_id = ?, technician_id = ?, start_datetime = ?, end_datetime = ?, parts_replaced = ?, issues_resolved = ?, status = ?
+     SET activity_type = ?, activity_description = ?, aircraft_id = ?, technician_id = ?, parts_replaced = ?, issues_resolved = ?, status = ?
      WHERE id = ?`,
 		[
 			activity_type,
 			activity_description,
 			aircraft_id,
 			technician_id,
-			start_datetime,
-			end_datetime,
 			JSON.stringify(parts_replaced),
 			issues_resolved,
 			status,
@@ -182,8 +178,6 @@ exports.put = (req, res) => {
 				activity_description,
 				aircraft_id,
 				technician_id,
-				start_datetime,
-				end_datetime,
 				parts_replaced,
 				issues_resolved,
 				status,
@@ -200,6 +194,9 @@ exports.delete = (req, res) => {
 			console.error("Error deleting maintenance activity:", err)
 			return res.status(500).json({ message: "Internal server error" })
 		}
-		res.json({ id: activityId, message: "Maintenance activity deleted successfully" })
+		res.status(200).json({
+			id: activityId,
+			message: "Maintenance activity deleted successfully",
+		})
 	})
 }

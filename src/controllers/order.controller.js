@@ -87,6 +87,6 @@ exports.delete = (req, res) => {
 		if (result.affectedRows === 0) {
 			return res.status(404).json({ message: "Order not found" })
 		}
-		res.json({ message: "Order deleted successfully" })
+		res.status(200).json({ message: "Order deleted successfully" })
 	})
 }

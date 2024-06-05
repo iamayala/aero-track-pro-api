@@ -137,6 +137,6 @@ exports.delete = (req, res) => {
 			console.error("Error deleting aircraft:", err)
 			return res.status(500).json({ message: "Internal server error" })
 		}
-		res.json({ message: "Aircraft deleted successfully" })
+		res.status(200).json({ message: "Aircraft deleted successfully" })
 	})
 }
