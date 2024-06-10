@@ -42,9 +42,41 @@ exports.post = (req, res) => {
 }
 
 // Get all Flights with aircraft details
+
 exports.get = (req, res) => {
 	db.query(
-		"SELECT Flights.*, Aircrafts.* FROM Flights JOIN Aircrafts ON Flights.aircraft_id = Aircrafts.id",
+		` SELECT 
+			Flights.flight_number AS flight_number,
+			Flights.departure_airport AS departure_airport,
+			Flights.departure_datetime AS departure_datetime,
+			Flights.arrival_airport AS arrival_airport,
+			Flights.arrival_datetime AS arrival_datetime,
+			Flights.aircraft_id AS flight_aircraft_id,
+			Flights.pilot_id AS flight_pilot_id,
+			Flights.co_pilot_id AS co_pilot_id,
+			Flights.crew_members AS crew_members,
+			Flights.passengers AS passengers,
+			Flights.status AS flight_status,
+			Aircrafts.registration_number AS aircraft_registration_number,
+			Aircrafts.manufacturer AS aircraft_manufacturer,
+			Aircrafts.model AS aircraft_model,
+			Aircrafts.year_of_manufacture AS aircraft_year_of_manufacture,
+			Aircrafts.capacity AS aircraft_capacity,
+			Aircrafts.fuel_capacity AS aircraft_fuel_capacity,
+			Aircrafts.max_speed AS aircraft_max_speed,
+			Aircrafts.max_range AS aircraft_max_range,
+			Aircrafts.current_location AS aircraft_current_location,
+			Aircrafts.status AS aircraft_status,
+			Aircrafts.id AS aircraft_id,
+			Pilots.name AS pilot_name,
+			Pilots.age AS pilot_age,
+			Pilots.experience_years AS pilot_experience_years
+		FROM 
+			Flights
+		JOIN 
+			Aircrafts ON Flights.aircraft_id = Aircrafts.id
+		JOIN 
+			Pilots ON Flights.pilot_id = Pilots.id`,
 		(err, results) => {
 			if (err) {
 				console.error("Error getting flights:", err)
@@ -59,7 +91,38 @@ exports.get = (req, res) => {
 exports.getOne = (req, res) => {
 	const id = req.params.id
 	db.query(
-		"SELECT Flights.*, Aircrafts.* FROM Flights JOIN Aircrafts ON Flights.aircraft_id = Aircrafts.id WHERE Flights.id = ?",
+		` SELECT 
+			Flights.flight_number AS flight_number,
+			Flights.departure_airport AS departure_airport,
+			Flights.departure_datetime AS departure_datetime,
+			Flights.arrival_airport AS arrival_airport,
+			Flights.arrival_datetime AS arrival_datetime,
+			Flights.aircraft_id AS flight_aircraft_id,
+			Flights.pilot_id AS flight_pilot_id,
+			Flights.co_pilot_id AS co_pilot_id,
+			Flights.crew_members AS crew_members,
+			Flights.passengers AS passengers,
+			Flights.status AS flight_status,
+			Aircrafts.registration_number AS aircraft_registration_number,
+			Aircrafts.manufacturer AS aircraft_manufacturer,
+			Aircrafts.model AS aircraft_model,
+			Aircrafts.year_of_manufacture AS aircraft_year_of_manufacture,
+			Aircrafts.capacity AS aircraft_capacity,
+			Aircrafts.fuel_capacity AS aircraft_fuel_capacity,
+			Aircrafts.max_speed AS aircraft_max_speed,
+			Aircrafts.max_range AS aircraft_max_range,
+			Aircrafts.current_location AS aircraft_current_location,
+			Aircrafts.status AS aircraft_status,
+			Pilots.name AS pilot_name,
+			Pilots.age AS pilot_age,
+			Pilots.experience_years AS pilot_experience_years
+		FROM 
+			Flights
+		JOIN 
+			Aircrafts ON Flights.aircraft_id = Aircrafts.id
+		JOIN 
+			Pilots ON Flights.pilot_id = Pilots.id
+		WHERE Flight.id = ? `,
 		[id],
 		(err, results) => {
 			if (err) {

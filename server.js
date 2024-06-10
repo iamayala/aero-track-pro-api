@@ -1,3 +1,4 @@
+const cron = require("node-cron")
 const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
@@ -29,6 +30,8 @@ const orderRoutes = require("./src/routes/order.routes")
 const aircraftRoutes = require("./src/routes/aircraft.routes")
 const flightRoutes = require("./src/routes/flight.routes")
 const maintenanceRoutes = require("./src/routes/maintenance.routes")
+const dashboardRoutes = require("./src/routes/dashboard.routes")
+const fakeFlightGenerator = require("./utils/fakeFlightGenerator")
 
 app.use("/user", userRoutes)
 app.use("/auth", authRoutes)
@@ -38,6 +41,18 @@ app.use("/order", orderRoutes)
 app.use("/aircraft", aircraftRoutes)
 app.use("/flight", flightRoutes)
 app.use("/maintenance", maintenanceRoutes)
+app.use("/dashboard", dashboardRoutes)
+
+// Cron job to create a new flight every 30 minutes
+cron.schedule("*/30 * * * *", () => {
+	fakeFlightGenerator.createFlight()
+})
+
+// Cron job to update aircraft data every 1 minute
+cron.schedule("* * * * *", () => {
+	fakeFlightGenerator.updateAircraftData()
+	fakeFlightGenerator.endFlights()
+})
 
 // Default route
 app.get("/", (req, res) => {

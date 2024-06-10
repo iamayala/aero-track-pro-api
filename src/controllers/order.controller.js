@@ -26,7 +26,7 @@ exports.post = (req, res) => {
 // Get all orders with parts details
 exports.get = (req, res) => {
 	db.query(
-		"SELECT Orders.*, Parts.* FROM Orders JOIN Parts ON Orders.part_id = Parts.id",
+		"SELECT Orders.*, Parts.part_number as part_number, Parts.part_name as part_name, Parts.manufacturer as manufacturer, Parts.unit_price as unit_price FROM Orders JOIN Parts ON Orders.part_id = Parts.id",
 		(err, results) => {
 			if (err) {
 				console.error("Error getting orders:", err)
@@ -41,7 +41,7 @@ exports.get = (req, res) => {
 exports.getOne = (req, res) => {
 	const id = req.params.id
 	db.query(
-		"SELECT Orders.*, Parts.* FROM Orders JOIN Parts ON Orders.part_id = Parts.id WHERE Orders.id = ?",
+		"SELECT Orders.*, Parts.part_number as part_number, Parts.part_name as part_name, Parts.manufacturer as manufacturer, Parts.unit_price as unit_price FROM Orders JOIN Parts ON Orders.part_id = Parts.id WHERE Orders.id = ?",
 		[id],
 		(err, results) => {
 			if (err) {
