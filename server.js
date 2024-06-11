@@ -31,7 +31,10 @@ const aircraftRoutes = require("./src/routes/aircraft.routes")
 const flightRoutes = require("./src/routes/flight.routes")
 const maintenanceRoutes = require("./src/routes/maintenance.routes")
 const dashboardRoutes = require("./src/routes/dashboard.routes")
+const reportsRoutes = require("./src/routes/reports.routes")
+const notificationRoutes = require("./src/routes/notification.routes")
 const fakeFlightGenerator = require("./utils/fakeFlightGenerator")
+const { addMaintenanceReminders, deletePastReminders } = require("./utils/notification")
 
 app.use("/user", userRoutes)
 app.use("/auth", authRoutes)
@@ -42,16 +45,21 @@ app.use("/aircraft", aircraftRoutes)
 app.use("/flight", flightRoutes)
 app.use("/maintenance", maintenanceRoutes)
 app.use("/dashboard", dashboardRoutes)
+app.use("/reports", reportsRoutes)
+app.use("/notifications", notificationRoutes)
 
 // Cron job to create a new flight every 30 minutes
 cron.schedule("*/30 * * * *", () => {
 	fakeFlightGenerator.createFlight()
+	insertComplianceReport()
 })
 
 // Cron job to update aircraft data every 1 minute
 cron.schedule("* * * * *", () => {
 	fakeFlightGenerator.updateAircraftData()
 	fakeFlightGenerator.endFlights()
+	addMaintenanceReminders()
+	deletePastReminders()
 })
 
 // Default route

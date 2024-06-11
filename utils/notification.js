@@ -1,59 +1,75 @@
-const generateNotifications = () => {
-	// 1. Notifications for maintenance activities due in 10 minutes
-	const maintenanceNotificationQuery = `
-        INSERT INTO Notifications (type, message)
-        SELECT 'maintenance', CONCAT('Maintenance activity with ID ', id, ' is due in 10 minutes.') AS message
-        FROM MaintenanceActivities
-        WHERE TIMESTAMPDIFF(MINUTE, NOW(), due_date) = 10;
+const moment = require("moment")
+const db = require("../src/controllers/_index")
+
+const addMaintenanceReminders = () => {
+	const tenMinutesFromNow = moment().add(10, "minutes").format("YYYY-MM-DD HH:mm:ss")
+	const timeNow = moment().format("YYYY-MM-DD HH:mm:ss")
+
+	const query = `
+        SELECT id, activity_type, start_datetime 
+        FROM MaintenanceActivities 
+        WHERE start_datetime BETWEEN  ? AND ? AND status != 'completed';
     `
 
-	// 2. Notifications for automatic order placement
-	const orderNotificationQuery = `
-        INSERT INTO Notifications (type, message)
-        SELECT 'order', 'A new order has been automatically placed for part ID ' || part_id || ' due to low quantity.' AS message
-        FROM Orders
-        WHERE status = 'pending';
-    `
-
-	// 3. Notifications for completion of maintenance activities
-	const maintenanceCompletionNotificationQuery = `
-        INSERT INTO Notifications (type, message)
-        SELECT 'maintenance', CONCAT('Maintenance activity with ID ', id, ' has been completed.') AS message
-        FROM MaintenanceActivities
-        WHERE status = 'completed';
-    `
-
-	// 4. Notifications for creation of flights
-	const flightNotificationQuery = `
-        INSERT INTO Notifications (type, message)
-        SELECT 'flight', 'A new flight has been created with ID ' || id AS message
-        FROM Flights;
-    `
-
-	// Execute the notification queries
-	db.query(maintenanceNotificationQuery, (err, result) => {
+	db.query(query, [timeNow, tenMinutesFromNow], (err, results) => {
 		if (err) {
-			console.error("Error generating maintenance notifications:", err)
+			console.error("Error fetching due maintenance activities:", err)
+			return
 		}
-	})
 
-	db.query(orderNotificationQuery, (err, result) => {
-		if (err) {
-			console.error("Error generating order notifications:", err)
-		}
-	})
+		results.forEach((activity) => {
+			const message = `${activity.activity_type} is due at ${activity.start_datetime}`
+			const timestamp = activity.start_datetime
 
-	db.query(maintenanceCompletionNotificationQuery, (err, result) => {
-		if (err) {
-			console.error("Error generating maintenance completion notifications:", err)
-		}
-	})
+			// Check if the notification already exists
+			const checkQuery = `
+                SELECT COUNT(*) AS count 
+                FROM Notifications 
+                WHERE message = ? AND timestamp = ?;
+            `
 
-	db.query(flightNotificationQuery, (err, result) => {
+			db.query(checkQuery, [message, timestamp], (checkErr, checkResult) => {
+				if (checkErr) {
+					console.error("Error checking existing notifications:", checkErr)
+					return
+				}
+
+				if (checkResult[0].count === 0) {
+					// Insert the notification if it doesn't already exist
+					const insertQuery = `
+                        INSERT INTO Notifications (message, timestamp) 
+                        VALUES (?, ?);
+                    `
+
+					db.query(insertQuery, [message, timestamp], (insertErr) => {
+						if (insertErr) {
+							console.error("Error adding notification:", insertErr)
+						} else {
+							console.log("Notification added successfully")
+						}
+					})
+				}
+			})
+		})
+	})
+}
+
+// Function to delete past reminders from the Notifications table
+const deletePastReminders = () => {
+	const currentTime = moment().format("YYYY-MM-DD HH:mm:ss")
+
+	const query = `
+        DELETE FROM Notifications 
+        WHERE timestamp < ?;
+    `
+
+	db.query(query, [currentTime], (err, result) => {
 		if (err) {
-			console.error("Error generating flight notifications:", err)
+			console.error("Error deleting past notifications:", err)
+		} else {
+			console.log(`Deleted ${result.affectedRows} past notifications`)
 		}
 	})
 }
 
-module.exports = generateNotifications
+module.exports = { addMaintenanceReminders, deletePastReminders }
