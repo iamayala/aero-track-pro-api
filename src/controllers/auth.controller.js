@@ -67,23 +67,23 @@ exports.updatePassword = (req, res) => {
 			}
 
 			if (!isMatch) {
-				res.status(401).json({ error: "Current pin is incorrect" })
+				res.status(401).json({ error: "Current password is incorrect" })
 				return
 			}
 
 			bcrypt.hash(newPassword, 10, (hashError, hashedPassword) => {
 				if (hashError) {
-					console.error("Error hashing pin:", hashError)
+					console.error("Error hashing password:", hashError)
 					res.status(500).json({ error: "Internal server error" })
 					return
 				}
 
 				db.query(
-					"UPDATE Users SET password = ? WHERE id = ?",
+					"UPDATE Users SET password = ?, password_reset_required = false WHERE id = ?",
 					[hashedPassword, id],
 					(updateError, updateResults) => {
 						if (updateError) {
-							console.error("Error updating pin:", updateError)
+							console.error("Error updating password:", updateError)
 							res.status(500).json({ error: "Internal server error" })
 							return
 						}
